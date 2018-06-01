@@ -26,7 +26,7 @@ from .tl.types import (
     FileLocationUnavailable, InputMediaUploadedDocument, ChannelFull,
     InputMediaUploadedPhoto, DocumentAttributeFilename, photos,
     TopPeer, InputNotifyPeer, InputMessageID, InputFileLocation,
-    InputDocumentFileLocation, PhotoSizeEmpty, InputDialogPeer
+    InputDocumentFileLocation, PhotoSizeEmpty
 )
 from .tl.types.contacts import ResolvedPeer
 
@@ -196,15 +196,8 @@ def get_input_dialog(dialog):
     try:
         if dialog.SUBCLASS_OF_ID == 0xa21c9795:  # crc32(b'InputDialogPeer')
             return dialog
-        if dialog.SUBCLASS_OF_ID == 0xc91c90b6:  # crc32(b'InputPeer')
-            return InputDialogPeer(dialog)
     except AttributeError:
         _raise_cast_fail(dialog, 'InputDialogPeer')
-
-    try:
-        return InputDialogPeer(get_input_peer(dialog))
-    except TypeError:
-        pass
 
     _raise_cast_fail(dialog, 'InputDialogPeer')
 
